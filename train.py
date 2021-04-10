@@ -58,7 +58,6 @@ def main(args):
             batch_step_size = len(data_loader[phase].dataset) / args.batch_size
 
             if phase == 'train':
-                scheduler.step()
                 model.train()
             else:
                 model.eval()
@@ -95,6 +94,8 @@ def main(args):
                 if batch_idx % 100 == 0:
                     print('| {} SET | Epoch [{:02d}/{:02d}], Step [{:04d}/{:04d}], Loss: {:.4f}'
                           .format(phase.upper(), epoch+1, args.num_epochs, batch_idx, int(batch_step_size), loss.item()))
+
+            if phase == "train": scheduler.step()
 
             # Print the average loss and accuracy in an epoch.
             epoch_loss = running_loss / batch_step_size
