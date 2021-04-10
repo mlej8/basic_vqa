@@ -37,7 +37,7 @@ def vqa_processing(image_dir, annotation_file, question_file, valid_answer_set, 
         image_name = image_name_template % image_id
         image_path = os.path.join(abs_image_dir, image_name+'.jpg')
         question_str = q['question']
-        question_tokens = text_processing.tokenize(question_str)
+        question_tokens = text_helper.tokenize(question_str)
         
         iminfo = dict(image_name=image_name,
                       image_path=image_path,
@@ -61,12 +61,12 @@ def vqa_processing(image_dir, annotation_file, question_file, valid_answer_set, 
 
 def main(args):
     
-    image_dir = args.input_dir+'/Resized_Images/%s/'
+    image_dir = args.input_dir+'/Images/mscoco/%s/'
     annotation_file = args.input_dir+'/Annotations/v2_mscoco_%s_annotations.json'
     question_file = args.input_dir+'/Questions/v2_OpenEnded_mscoco_%s_questions.json'
 
     vocab_answer_file = args.output_dir+'/vocab_answers.txt'
-    answer_dict = text_processing.VocabDict(vocab_answer_file)
+    answer_dict = text_helper.VocabDict(vocab_answer_file)
     valid_answer_set = set(answer_dict.word_list)    
     
     train = vqa_processing(image_dir, annotation_file, question_file, valid_answer_set, 'train2014')
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--input_dir', type=str, default='/run/media/hoosiki/WareHouse3/mtb/datasets/VQA',
+    parser.add_argument('--input_dir', type=str, default='../../VQA/datasets',
                         help='directory for inputs')
 
     parser.add_argument('--output_dir', type=str, default='../datasets',
